@@ -106,4 +106,13 @@ Visual of how the project files and folders are structured inside NetBeans IDE.
 
 ---
 
- 
+ ## Future Improvements 
+ - **Responsive Design**
+ - **Web Integration**
+ - **User Role-Based Access Control (RBAC)**  
+ - **Export Options (PDF/Excel)**
+ - **Cloud or Remote database support**
+
+ ## Final Thoughts
+
+This project was built as a desktop-based learning experience using Java Swing and MySQL. It helped me learn about GUI design, database integration, and project structure. While not perfect, it's a strong foundation for future upgrades and learning :)
