@@ -310,26 +310,35 @@ if (selectedStudentId != -1) {
 
     if (confirm == JOptionPane.YES_OPTION) {
         try {
-            Connection conn = DBConnection.getConnection();
-            String sql = "DELETE FROM students WHERE id=?";
-            PreparedStatement pst = conn.prepareStatement(sql);
-            pst.setInt(1, selectedStudentId);
+    Connection conn = DBConnection.getConnection();
 
-            int rows = pst.executeUpdate();
+    // Delete attendance and student
+    String sql1 = "DELETE FROM attendance WHERE student_id = ?";
+    String sql2 = "DELETE FROM students WHERE id = ?";
 
-            if (rows > 0) {
-                JOptionPane.showMessageDialog(this, "Student Deleted Successfully!");
-                loadStudentData();
-                clearForm(); // Optional
-            }
+    PreparedStatement pst1 = conn.prepareStatement(sql1);
+    pst1.setInt(1, selectedStudentId);
+    pst1.executeUpdate();
+    pst1.close();
 
-            pst.close();
-            conn.close();
+    PreparedStatement pst2 = conn.prepareStatement(sql2);
+    pst2.setInt(1, selectedStudentId);
+    int rows = pst2.executeUpdate();
+    pst2.close();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    conn.close();
+
+    if (rows > 0) {
+        JOptionPane.showMessageDialog(this, "Student deleted successfully!");
+        loadStudentData();
+        clearForm(); // Optional
     }
+
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error deleting student: " + e.getMessage());
+    }
+  }
 }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteStudentActionPerformed
