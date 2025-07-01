@@ -49,4 +49,61 @@ This Student Management System is a desktop-based application for managing stude
 
 6. Connect your MySQL DB using `DBConnection.java`.     
 7. Run `LoginForm.java` or `LandingPage.java` to start
+
+
+## 📸 Screenshots
+
+This section showcases important parts of the **Student Management System** built using Java Swing, NetBeans IDE, and MySQL. Below are the UI screens and project structure for a clear understanding of the application workflow.
+
+---
+
+### 🏠 Landing Page  
+Initial welcome screen of the application.
+
+![Landing Page](assets/landing_page.png)
+
+---
+
+### 🔐 Login Form  
+Secure login interface for Admin and User roles.
+
+![Login Form](assets/login_form.png)
+
+---
+
+### 📊 Dashboard  
+Main dashboard panel with navigation to different modules.
+
+![Dashboard](assets/dashboard.png)
+
+---
+
+### 🧑‍🎓 Student Registration Form  
+Form to add, view, and manage student details.
+
+![Student Form](assets/student_form.png)
+
+---
+
+### 📅 Attendance Management Form  
+Interface to mark and track student attendance.
+
+![Attendance Form](assets/atendance_form.png)
+
+---
+
+### 📈 Performance Entry Form  
+Used for entering and managing academic performance or grades.
+
+![Performance Form](assets/performance_form.png)
+
+---
+
+### 🗂️ Project Folder Structure in NetBeans  
+Visual of how the project files and folders are structured inside NetBeans IDE.
+
+![Structure](assets/structure.png)
+
+---
+
  
