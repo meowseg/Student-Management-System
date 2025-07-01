@@ -88,7 +88,7 @@ Form to add, view, and manage student details.
 ### 📅 Attendance Management Form  
 Interface to mark and track student attendance.
 
-![Attendance Form](assets/atendance_form.png)
+![Attendance Form](assets/attendance_form.png)
 
 ---
 
