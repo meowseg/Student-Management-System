@@ -35,15 +35,20 @@ This Student Management System is a desktop-based application for managing stude
 
 ## How to Run
 1. Clone the repository
-2. Open in NetBeans or any Java IDE
-3. Import the `student_db.sql` file into your MySQL server:
+    ```bash
+    git clone https://github.com/meowseg/Student-Management-System.git
+
+3. Open in NetBeans or any Java IDE
+4. Import the `student_db.sql` file into your MySQL server:
    - If using phpMyAdmin: Go to the database → Import → Select `student_db.sql` → Click Go
-   - If using terminal: Run  
+   - If using terminal: Run
+   
      ```bash
      mysql -u root -p student_management < path/to/student_db.sql
      ```
-4. Download and add the MySQL JDBC Driver- (Connector/J 8.0.33) to your project libraries 
-5. Update your MySQL credentials in `DBConnection.java`:
+     
+5. Download and add the MySQL JDBC Driver- (Connector/J 8.0.33) to your project libraries 
+6. Update your MySQL credentials in `DBConnection.java`:
 
    ```java
    conn = DriverManager.getConnection(
@@ -52,8 +57,8 @@ This Student Management System is a desktop-based application for managing stude
        "Your_Password"  // your password
    );
 
-6. Connect your MySQL DB using `DBConnection.java`.     
-7. Run `LoginForm.java` or `LandingPage.java` to start
+7. Connect your MySQL DB using `DBConnection.java`.     
+8. Run `LoginForm.java` or `LandingPage.java` to start
    
 
 ## 📸 Screenshots
