@@ -117,8 +117,9 @@ Visual of how the project files and folders are structured inside NetBeans IDE.
 ---
 
  ## Future Improvements 
- - **Responsive Design**
+ - **Responsive Design and view enhancements**
  - **Web Integration**
+ - **Advanced Search & Error handling**
  - **User Role-Based Access Control (RBAC)**  
  - **Export Options (PDF/Excel)**
  - **Cloud or Remote database support**
