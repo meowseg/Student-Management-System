@@ -47,7 +47,7 @@ This Student Management System is a desktop-based application for managing stude
      mysql -u root -p student_management < path/to/student_db.sql
      ```
      
-5. Download and add the MySQL JDBC Driver- (Connector/J 8.0.33) to your project libraries 
+5. Download and add the MySQL JDBC Driver- (Connector/J 9.3.0) to your project libraries 
 6. Update your MySQL credentials in `DBConnection.java`:
 
    ```java
