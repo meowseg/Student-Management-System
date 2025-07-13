@@ -132,7 +132,7 @@ public class LoginForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(74, 81, 66, 0);
         jPanel3.add(btnLogin, gridBagConstraints);
 
-        getContentPane().add(jPanel3, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -154,7 +154,7 @@ public class LoginForm extends javax.swing.JFrame {
 
             if (rs.next()) {
                 JOptionPane.showMessageDialog(this, "Login Successful!");
-                Dashboard dashboard = new Dashboard(username);
+                Dashboard dashboard = new Dashboard(username,password);
                 dashboard.setVisible(true);
                 this.dispose();
 

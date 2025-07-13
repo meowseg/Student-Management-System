@@ -22,6 +22,19 @@ public class PerformanceForm extends javax.swing.JFrame {
     Dashboard dashboardRef;
     public PerformanceForm(Dashboard dashboard) {
         initComponents();
+        tblGrades.addMouseListener(new java.awt.event.MouseAdapter() {
+        public void mouseClicked(java.awt.event.MouseEvent e) {
+        int row = tblGrades.getSelectedRow();
+        if (row != -1) {
+            txtSubject.setText(tblGrades.getValueAt(row, 2).toString());
+            txtMarks.setText(tblGrades.getValueAt(row, 3).toString());
+
+            String selectedStudent = tblGrades.getValueAt(row, 1).toString();
+            cmbStudent.setSelectedItem(selectedStudent);
+        }
+    }
+});
+
         this.dashboardRef = dashboard;
         loadStudentsIntoComboBox();
         loadGradesTable();
@@ -340,64 +353,88 @@ private void clearForm() {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
        
     int selectedRow = tblGrades.getSelectedRow();
-    if (selectedRow != -1) {
+if (selectedRow != -1) {
+    try {
         int id = Integer.parseInt(tblGrades.getValueAt(selectedRow, 0).toString());
+
         String selectedStudent = cmbStudent.getSelectedItem().toString();
         int studentId = Integer.parseInt(selectedStudent.split(" - ")[0]);
-        String subject = txtSubject.getText();
-        double marks = Double.parseDouble(txtMarks.getText());
 
-        try {
-            Connection conn = DBConnection.getConnection();
-            String query = "UPDATE grades SET student_id=?, subject=?, marks=? WHERE id=?";
-            PreparedStatement pst = conn.prepareStatement(query);
-            pst.setInt(1, studentId);
-            pst.setString(2, subject);
-            pst.setDouble(3, marks);
-            pst.setInt(4, id);
+        String subject = txtSubject.getText().trim();
+        String marksText = txtMarks.getText().trim();
 
-            pst.executeUpdate();
-            conn.close();
-
-            JOptionPane.showMessageDialog(this, "Grade updated successfully!");
-            loadGradesTable();
-            clearForm();
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (subject.isEmpty() || marksText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Subject and Marks fields cannot be empty.");
+            return;
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Please select a record to update.");
+
+        double marks = Double.parseDouble(marksText);
+
+        Connection conn = DBConnection.getConnection();
+        String query = "UPDATE grades SET student_id=?, subject=?, marks=? WHERE id=?";
+        PreparedStatement pst = conn.prepareStatement(query);
+        pst.setInt(1, studentId);
+        pst.setString(2, subject);
+        pst.setDouble(3, marks);
+        pst.setInt(4, id);
+
+        pst.executeUpdate();
+        conn.close();
+
+        JOptionPane.showMessageDialog(this, "Grade updated successfully!");
+        loadGradesTable();
+        clearForm();
+
+    } catch (NumberFormatException ex) {
+        JOptionPane.showMessageDialog(this, "Marks must be a valid number.");
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "An error occurred while updating: " + e.getMessage());
     }
+} else {
+    JOptionPane.showMessageDialog(this, "Please select a record to update.");
+}
+
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
+    try {
     String selectedStudent = cmbStudent.getSelectedItem().toString();
     int studentId = Integer.parseInt(selectedStudent.split(" - ")[0]);
-    String subject = txtSubject.getText();
-    double marks = Double.parseDouble(txtMarks.getText());
 
-    try {
-        Connection conn = DBConnection.getConnection();
-        String query = "INSERT INTO grades (student_id, subject, marks) VALUES (?, ?, ?)";
-        PreparedStatement pst = conn.prepareStatement(query);
-        pst.setInt(1, studentId);
-        pst.setString(2, subject);
-        pst.setDouble(3, marks);
+    String subject = txtSubject.getText().trim();
+    String marksText = txtMarks.getText().trim();
 
-        pst.executeUpdate();
-        conn.close();
-
-        JOptionPane.showMessageDialog(this, "Grade added successfully!");
-        loadGradesTable();
-        clearForm();
-
-    } catch (Exception e) {
-        e.printStackTrace();
+    if (subject.isEmpty() || marksText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Subject and Marks cannot be empty.");
+        return;
     }
-    
+
+    double marks = Double.parseDouble(marksText);
+
+    Connection conn = DBConnection.getConnection();
+    String query = "INSERT INTO grades (student_id, subject, marks) VALUES (?, ?, ?)";
+    PreparedStatement pst = conn.prepareStatement(query);
+    pst.setInt(1, studentId);
+    pst.setString(2, subject);
+    pst.setDouble(3, marks);
+
+    pst.executeUpdate();
+    conn.close();
+
+    JOptionPane.showMessageDialog(this, "Grade added successfully!");
+    loadGradesTable();
+    clearForm();
+
+} catch (NumberFormatException ex) {
+    JOptionPane.showMessageDialog(this, "Please enter valid numeric marks.");
+} catch (Exception e) {
+    e.printStackTrace();
+    JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
+}
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed

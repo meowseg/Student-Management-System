@@ -55,7 +55,7 @@ public class StudentForm extends javax.swing.JFrame {
         ResultSet rs = pst.executeQuery();
 
         while (rs.next()) {
-            String id  = rs.getString("ID");
+            int id  = rs.getInt("ID");
             String name = rs.getString("name");
             String dob = rs.getString("dob");
             String course = rs.getString("course");
@@ -309,7 +309,7 @@ if (selectedStudentId != -1) {
     int confirm = JOptionPane.showConfirmDialog(this, "Are you sure to delete this student?", "Confirm", JOptionPane.YES_NO_OPTION);
 
     if (confirm == JOptionPane.YES_OPTION) {
-        try {
+       try {
     Connection conn = DBConnection.getConnection();
 
     // Delete attendance and student
@@ -337,8 +337,9 @@ if (selectedStudentId != -1) {
 } catch (Exception e) {
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Error deleting student: " + e.getMessage());
+}
+
     }
-  }
 }
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDeleteStudentActionPerformed

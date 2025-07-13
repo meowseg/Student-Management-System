@@ -23,16 +23,55 @@ public class Dashboard extends javax.swing.JFrame {
     /**
      * Creates new form Dashboard
      */
-    public Dashboard(String username) {
-        initComponents();
-        setLocationRelativeTo(null);
-        lblWelcome.setText("Welcome, " + username + " :)");
-    }
-    
-    public Dashboard() {
-    this("User"); // Calls the above constructor with a default name
+    private String loggedInUsername;
+    private String loggedInPassword;
+    private JFrame thisWindow = this;
+
+    public Dashboard(String username, String password) {
+      initComponents();
+      setLocationRelativeTo(null);
+      this.loggedInUsername = username;
+      this.loggedInPassword = password;
+      lblWelcome.setText("Welcome, " + username + " :)");
 }
 
+    
+    public void deleteCurrentUser(String username, String password) {
+    Connection con = null;
+
+    try {
+        con = DBConnection.getConnection();  // ✅ Use your central DB connection class
+
+        String sql = "DELETE FROM users WHERE username = ? AND password = ? AND role = 'user'";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, username);
+        pst.setString(2, password);
+
+        int rows = pst.executeUpdate();
+
+        if (rows > 0) {
+            JOptionPane.showMessageDialog(null, "Your account has been deleted.");
+
+            // 👇 Redirect to LandingPage after deletion
+            new LandingPage().setVisible(true);
+            this.dispose(); // Close the current Dashboard
+        } else {
+            JOptionPane.showMessageDialog(null, "Failed to delete account. Please try again.");
+        }
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(null, "An error occurred while deleting your account.");
+    } finally {
+        try {
+            if (con != null) con.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -51,6 +90,7 @@ public class Dashboard extends javax.swing.JFrame {
         btnPerformanceForm = new javax.swing.JButton();
         btnLogout = new javax.swing.JButton();
         lblWelcome = new javax.swing.JLabel();
+        deleteAccountBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -58,22 +98,23 @@ public class Dashboard extends javax.swing.JFrame {
         jInternalFrame1.setVisible(true);
         jInternalFrame1.getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Student Management Dashboard");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipady = 10;
+        gridBagConstraints.ipadx = 34;
+        gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 142, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(6, 116, 0, 0);
         jInternalFrame1.getContentPane().add(jLabel1, gridBagConstraints);
 
         jPanel1.setBackground(new java.awt.Color(6, 147, 227));
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
-        btnStudentForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btnStudentForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         btnStudentForm.setText("Student ");
         btnStudentForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,13 +125,13 @@ public class Dashboard extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 56;
-        gridBagConstraints.ipady = 8;
+        gridBagConstraints.ipadx = 34;
+        gridBagConstraints.ipady = 15;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 155, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 239, 0, 0);
         jPanel1.add(btnStudentForm, gridBagConstraints);
 
-        btnAttendanceForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btnAttendanceForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         btnAttendanceForm.setText("Attendance ");
         btnAttendanceForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,13 +142,13 @@ public class Dashboard extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 36;
-        gridBagConstraints.ipady = 10;
+        gridBagConstraints.ipadx = 11;
+        gridBagConstraints.ipady = 18;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 155, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 239, 0, 0);
         jPanel1.add(btnAttendanceForm, gridBagConstraints);
 
-        btnPerformanceForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
+        btnPerformanceForm.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
         btnPerformanceForm.setText("Performance ");
         btnPerformanceForm.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -118,12 +159,13 @@ public class Dashboard extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 28;
-        gridBagConstraints.ipady = 11;
+        gridBagConstraints.ipadx = 3;
+        gridBagConstraints.ipady = 16;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 155, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(20, 239, 0, 0);
         jPanel1.add(btnPerformanceForm, gridBagConstraints);
 
+        btnLogout.setBackground(new java.awt.Color(255, 255, 204));
         btnLogout.setFont(new java.awt.Font("Segoe UI Semibold", 0, 12)); // NOI18N
         btnLogout.setText("LOGOUT");
         btnLogout.addActionListener(new java.awt.event.ActionListener() {
@@ -134,44 +176,59 @@ public class Dashboard extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 4;
-        gridBagConstraints.ipady = 8;
+        gridBagConstraints.ipady = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(31, 181, 46, 0);
+        gridBagConstraints.insets = new java.awt.Insets(18, 262, 0, 0);
         jPanel1.add(btnLogout, gridBagConstraints);
 
-        lblWelcome.setFont(new java.awt.Font("MV Boli", 0, 18)); // NOI18N
+        lblWelcome.setFont(new java.awt.Font("MV Boli", 0, 24)); // NOI18N
         lblWelcome.setForeground(new java.awt.Color(255, 255, 255));
         lblWelcome.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblWelcome.setText("Welcome, user :)");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.ipadx = 41;
-        gridBagConstraints.ipady = 7;
+        gridBagConstraints.gridwidth = 4;
+        gridBagConstraints.ipadx = 44;
+        gridBagConstraints.ipady = 39;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 128, 0, 130);
+        gridBagConstraints.insets = new java.awt.Insets(16, 178, 0, 165);
         jPanel1.add(lblWelcome, gridBagConstraints);
+
+        deleteAccountBtn.setBackground(new java.awt.Color(255, 102, 102));
+        deleteAccountBtn.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
+        deleteAccountBtn.setText("Delete Account");
+        deleteAccountBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteAccountBtnActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.ipadx = 19;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(26, 227, 33, 0);
+        jPanel1.add(deleteAccountBtn, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.gridwidth = 2;
-        gridBagConstraints.ipadx = 186;
-        gridBagConstraints.ipady = 189;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(6, 0, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(6, 6, 28, 6);
         jInternalFrame1.getContentPane().add(jPanel1, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 575, Short.MAX_VALUE)
+            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
+            .addComponent(jInternalFrame1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -201,38 +258,54 @@ public class Dashboard extends javax.swing.JFrame {
     System.exit(0); 
     }//GEN-LAST:event_btnLogoutActionPerformed
 
+    private void deleteAccountBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAccountBtnActionPerformed
+        deleteAccountBtn.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        int confirm = JOptionPane.showConfirmDialog(null,
+                "Are you sure you want to delete your account permanently?",
+                "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+        if (confirm == JOptionPane.YES_OPTION) {
+            deleteCurrentUser(loggedInUsername, loggedInPassword);
+        }
+    }
+});
+
+    }//GEN-LAST:event_deleteAccountBtnActionPerformed
+
   
     
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new Dashboard().setVisible(true));
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+//            logger.log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(() -> new Dashboard().setVisible(true));
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAttendanceForm;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnPerformanceForm;
     private javax.swing.JButton btnStudentForm;
+    private javax.swing.JButton deleteAccountBtn;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
