@@ -25,8 +25,8 @@ This Student Management System is a desktop-based application for managing stude
 ## Installation
 
 ### Prerequisites
-- JDK: 17.0.9
-- NetBeans IDE: 19
+- JDK: 17.0.15
+- NetBeans IDE: 26
 - MySQL Server: 8.0.36
 - MySQL Workbench: 8.0.36
 - MySQL JDBC Connector: 8.0.33
