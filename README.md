@@ -25,20 +25,30 @@ This Student Management System is a desktop-based application for managing stude
 ## Installation
 
 ### Prerequisites
-- JDK: 17.0.9
-- NetBeans IDE: 19
-- MySQL Server: 8.0.36
-- MySQL Workbench: 8.0.36
-- MySQL JDBC Connector: 8.0.33
+- JDK: 17.0.15
+- NetBeans IDE: 26
+- MySQL Server: 8.0.42
+- MySQL Workbench: 8.0.42
+- MySQL JDBC Connector: 9.3.0
 - JCalendar: 1.4
 - Apache POI: 5.2.3 (Optional)
 
 ## How to Run
 1. Clone the repository
-2. Open in NetBeans or any Java IDE
-3. Import the `student_db.sql` file into your MySQL server
-4. Download and add the MySQL JDBC Driver- (Connector/J 8.0.33) to your project libraries 
-5. Update your MySQL credentials in `DBConnection.java`:
+    ```bash
+    git clone https://github.com/meowseg/Student-Management-System.git
+
+3. Open in NetBeans or any Java IDE
+4. Import the `student_db.sql` file into your MySQL server:
+   - If using phpMyAdmin: Go to the database → Import → Select `student_db.sql` → Click Go
+   - If using terminal: Run
+   
+     ```bash
+     mysql -u root -p student_management < path/to/student_db.sql
+     ```
+     
+5. Download and add the MySQL JDBC Driver- (Connector/J 9.3.0) to your project libraries 
+6. Update your MySQL credentials in `DBConnection.java`:
 
    ```java
    conn = DriverManager.getConnection(
@@ -47,9 +57,9 @@ This Student Management System is a desktop-based application for managing stude
        "Your_Password"  // your password
    );
 
-6. Connect your MySQL DB using `DBConnection.java`.     
-7. Run `LoginForm.java` or `LandingPage.java` to start
-
+7. Connect your MySQL DB using `DBConnection.java`.     
+8. Run `LoginForm.java` or `LandingPage.java` to start
+   
 
 ## 📸 Screenshots
 
@@ -88,7 +98,7 @@ Form to add, view, and manage student details.
 ### 📅 Attendance Management Form  
 Interface to mark and track student attendance.
 
-![Attendance Form](assets/atendance_form.png)
+![Attendance Form](assets/attendance_form.png)
 
 ---
 
@@ -106,4 +116,14 @@ Visual of how the project files and folders are structured inside NetBeans IDE.
 
 ---
 
- 
+ ## Future Improvements 
+ - **Responsive Design and view enhancements**
+ - **Web Integration**
+ - **Advanced Search & Error handling**
+ - **User Role-Based Access Control (RBAC)**  
+ - **Export Options (PDF/Excel)**
+ - **Cloud or Remote database support**
+
+ ## Final Thoughts
+
+This project was built as a desktop-based learning experience using Java Swing and MySQL. It helped me learn about GUI design, database integration, and project structure. While not perfect, it's a strong foundation for future upgrades and learning :)
