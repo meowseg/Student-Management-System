@@ -367,8 +367,32 @@ if (selectedRow != -1) {
     try {
         int id = Integer.parseInt(tblGrades.getValueAt(selectedRow, 0).toString());
 
-        String selectedStudent = cmbStudent.getSelectedItem().toString();
-        int studentId = Integer.parseInt(selectedStudent.split(" - ")[0]);
+        // Correct way to fetch studentId by name
+String selectedStudent = cmbStudent.getSelectedItem().toString();
+int studentId = -1;
+
+try {
+    Connection conn = DBConnection.getConnection();
+    String query = "SELECT id FROM students WHERE name = ?";
+    PreparedStatement pst = conn.prepareStatement(query);
+    pst.setString(1, selectedStudent);
+    ResultSet rs = pst.executeQuery();
+
+    if (rs.next()) {
+        studentId = rs.getInt("id");
+    } else {
+        JOptionPane.showMessageDialog(this, "Student not found in database.");
+        return;
+    }
+
+    rs.close();
+    pst.close();
+    conn.close();
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error fetching student ID: " + e.getMessage());
+    return;
+}
+
 
         String subject = txtSubject.getText().trim();
         String marksText = txtMarks.getText().trim();
@@ -377,7 +401,12 @@ if (selectedRow != -1) {
             JOptionPane.showMessageDialog(this, "Subject and Marks fields cannot be empty.");
             return;
         }
-
+        
+        if (!marksText.matches("\\d+(\\.\\d+)?")) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numeric marks.");
+            return;
+        }
+        
         double marks = Double.parseDouble(marksText);
 
         Connection conn = DBConnection.getConnection();
@@ -395,8 +424,6 @@ if (selectedRow != -1) {
         loadGradesTable();
         clearForm();
 
-    } catch (NumberFormatException ex) {
-        JOptionPane.showMessageDialog(this, "Marks must be a valid number.");
     } catch (Exception e) {
         e.printStackTrace();
         JOptionPane.showMessageDialog(this, "An error occurred while updating: " + e.getMessage());
@@ -411,8 +438,33 @@ if (selectedRow != -1) {
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
 
     try {
-    String selectedStudent = cmbStudent.getSelectedItem().toString();
-    int studentId = Integer.parseInt(selectedStudent.split(" - ")[0]);
+        
+    // Correct way to fetch studentId by name
+String selectedStudent = cmbStudent.getSelectedItem().toString();
+int studentId = -1;
+
+try {
+    Connection conn = DBConnection.getConnection();
+    String query = "SELECT id FROM students WHERE name = ?";
+    PreparedStatement pst = conn.prepareStatement(query);
+    pst.setString(1, selectedStudent);
+    ResultSet rs = pst.executeQuery();
+
+    if (rs.next()) {
+        studentId = rs.getInt("id");
+    } else {
+        JOptionPane.showMessageDialog(this, "Student not found in database.");
+        return;
+    }
+
+    rs.close();
+    pst.close();
+    conn.close();
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this, "Error fetching student ID: " + e.getMessage());
+    return;
+}
+
 
     String subject = txtSubject.getText().trim();
     String marksText = txtMarks.getText().trim();
@@ -422,6 +474,11 @@ if (selectedRow != -1) {
         return;
     }
 
+    if (!marksText.matches("\\d+(\\.\\d+)?")) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numeric marks.");
+            return;
+        }
+        
     double marks = Double.parseDouble(marksText);
 
     Connection conn = DBConnection.getConnection();
@@ -438,8 +495,6 @@ if (selectedRow != -1) {
     loadGradesTable();
     clearForm();
 
-} catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(this, "Please enter valid numeric marks.");
 } catch (Exception e) {
     e.printStackTrace();
     JOptionPane.showMessageDialog(this, "Error: " + e.getMessage());
