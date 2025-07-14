@@ -116,7 +116,7 @@ Visual of how the project files and folders are structured inside NetBeans IDE.
 
 ---
  ## 🔗 **Working Demo:**
-    https://youtu.be/iL72tADFKsM
+     [Click to watch](https://youtu.be/iL72tADFKsM)
  
  ## Future Improvements 
  - **Responsive Design and view enhancements**
