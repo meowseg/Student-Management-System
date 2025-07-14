@@ -311,7 +311,7 @@ public class PerformanceForm extends javax.swing.JFrame {
         while (rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
-            cmbStudent.addItem(id + " - " + name); // Combines ID and name
+            cmbStudent.addItem(name); 
         }
 
         rs.close();
