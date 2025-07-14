@@ -309,7 +309,6 @@ public class PerformanceForm extends javax.swing.JFrame {
         cmbStudent.removeAllItems(); // Clears before loading
 
         while (rs.next()) {
-            int id = rs.getInt("id");
             String name = rs.getString("name");
             cmbStudent.addItem(name); 
         }
