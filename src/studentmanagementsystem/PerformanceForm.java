@@ -22,15 +22,25 @@ public class PerformanceForm extends javax.swing.JFrame {
     Dashboard dashboardRef;
     public PerformanceForm(Dashboard dashboard) {
         initComponents();
-        tblGrades.addMouseListener(new java.awt.event.MouseAdapter() {
-        public void mouseClicked(java.awt.event.MouseEvent e) {
-        int row = tblGrades.getSelectedRow();
-        if (row != -1) {
-            txtSubject.setText(tblGrades.getValueAt(row, 2).toString());
-            txtMarks.setText(tblGrades.getValueAt(row, 3).toString());
+        tblGrades.getSelectionModel().addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+        public void valueChanged(javax.swing.event.ListSelectionEvent e) {
+          if (!e.getValueIsAdjusting()) {
+            int row = tblGrades.getSelectedRow();
+            if (row != -1) {
+                String studentName = tblGrades.getValueAt(row, 1).toString(); // assuming name is in column 1
+                String subject = tblGrades.getValueAt(row, 2).toString();
+                String marks = tblGrades.getValueAt(row, 3).toString();
 
-            String selectedStudent = tblGrades.getValueAt(row, 1).toString();
-            cmbStudent.setSelectedItem(selectedStudent);
+                for (int i = 0; i < cmbStudent.getItemCount(); i++) {
+                    if (cmbStudent.getItemAt(i).equalsIgnoreCase(studentName)) {
+                        cmbStudent.setSelectedIndex(i);
+                        break;
+                    }
+                }
+
+                txtSubject.setText(subject);
+                txtMarks.setText(marks);
+            }
         }
     }
 });
@@ -469,27 +479,6 @@ if (selectedRow != -1) {
        clearForm();                 
        tblGrades.clearSelection();
     }//GEN-LAST:event_btnClearActionPerformed
-
-   
-   private void tblGradesMouseClicked(java.awt.event.MouseEvent evt) {
-    int row = tblGrades.getSelectedRow();
-    if (row != -1) {
-        String student = tblGrades.getValueAt(row, 1).toString();
-        String subject = tblGrades.getValueAt(row, 2).toString();
-        String marks = tblGrades.getValueAt(row, 3).toString();
-
-        for (int i = 0; i < cmbStudent.getItemCount(); i++) {
-            String comboItem = cmbStudent.getItemAt(i);
-            if (comboItem.split(" - ")[1].trim().equalsIgnoreCase(student)) {
-                cmbStudent.setSelectedIndex(i);
-                break;
-            }
-        }
-
-        txtSubject.setText(subject);
-        txtMarks.setText(marks);
-    }
-}
 
     
 
