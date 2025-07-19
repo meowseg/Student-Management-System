@@ -1,7 +1,6 @@
 # Student-Management-System 💻
 A Java Swing based Student Management System with Login, Signup, Attendance, and Performance modules.
-
-This Student Management System is a desktop-based application for managing student records, attendance, and academic performance using Java.
+It is a desktop-based application for managing student records, attendance, and academic performance using Java.
 
 ## Features
 - Login / Signup authentication (Secure login for admin and users)
