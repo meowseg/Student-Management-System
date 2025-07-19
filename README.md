@@ -57,7 +57,7 @@ It is a desktop-based application for managing student records, attendance, and 
    );
 
 7. Connect your MySQL DB using `DBConnection.java`.     
-8. Run `LoginForm.java` or `LandingPage.java` to start
+8. Run `LandingPage.java` to start
    
 
 ## 📸 Screenshots
