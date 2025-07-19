@@ -129,4 +129,4 @@ Visual of how the project files and folders are structured inside NetBeans IDE.
 
  ## Final Thoughts
 
-This project was built as a desktop-based learning experience using Java Swing and MySQL. It helped me learn about GUI design, database integration, and project structure. While not perfect, it's a strong foundation for future upgrades and learning :)
+This project was built as a desktop-based learning experience using Java Swing and MySQL. It helped me learn about GUI design, database integration, and project development. While not perfect, it's a strong foundation for future upgrades and learning :)
